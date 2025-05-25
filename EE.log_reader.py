@@ -99,6 +99,8 @@ def parse_log(file_path, min_keyword_filter=True, use_utc=False):
             text = m.group(2)
             if min_keyword_filter and not re.search(r'dmg|damage', text, re.IGNORECASE):
                 continue
+            if text.strip().startswith("Cannot create"): # Skip all the cannot create warnings since sometiimes they are with damage in them and are quite spammy
+                continue
             off = float(m.group(1))
             warning_groups.setdefault(off, []).append(text.strip())
 
